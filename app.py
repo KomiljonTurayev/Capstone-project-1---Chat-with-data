@@ -17,11 +17,11 @@ st.set_page_config(
 )
 
 SAMPLE_QUERIES = [
-    "Top 5 mahsulotni sotuvlar bo'yicha ko'rsat",
-    "Oylik daromad dinamikasini ko'rsat",
-    "Eng faol 5 mijozni ko'rsat",
-    "Kategoriya bo'yicha umumiy daromadni ko'rsat",
-    "Oxirgi 10 buyurtmani ko'rsat",
+    "Show top 5 products by sales",
+    "Show monthly revenue trend",
+    "Who are the top 5 most active customers?",
+    "Show total revenue by category",
+    "Show the last 10 orders",
 ]
 
 
@@ -73,24 +73,24 @@ def render_sidebar() -> None:
 
         stats = load_sidebar_stats()
         col1, col2 = st.columns(2)
-        col1.metric("Mijozlar", stats["customers"])
-        col2.metric("Mahsulotlar", stats["products"])
-        col1.metric("Buyurtmalar", stats["orders"])
-        col2.metric("Daromad", f"${stats['revenue']:,.0f}")
+        col1.metric("Customers", stats["customers"])
+        col2.metric("Products", stats["products"])
+        col1.metric("Orders", stats["orders"])
+        col2.metric("Revenue", f"${stats['revenue']:,.0f}")
 
         st.divider()
-        st.subheader("📈 Kategoriya daromadi")
+        st.subheader("📈 Revenue by Category")
         df = load_category_chart()
         if not df.empty:
             fig = px.bar(
                 df, x="category", y="revenue", color="category",
-                labels={"revenue": "Daromad ($)", "category": "Kategoriya"},
+                labels={"revenue": "Revenue ($)", "category": "Category"},
             )
             fig.update_layout(showlegend=False, margin=dict(t=0, b=0))
             st.plotly_chart(fig, use_container_width=True)
 
         st.divider()
-        st.subheader("💡 Namuna so'rovlar")
+        st.subheader("💡 Sample Queries")
         for q in SAMPLE_QUERIES:
             if st.button(q, use_container_width=True, key=f"sample_{q[:20]}"):
                 st.session_state.pending_query = q
@@ -105,25 +105,25 @@ def render_ticket_form() -> None:
             "",
         )
         title = st.text_input(
-            "Muammo sarlavhasi",
+            "Issue title",
             value=f"Support: {last_user_msg[:60]}",
             key="ticket_title",
         )
         body = st.text_area(
-            "Tavsif",
-            value=f"Foydalanuvchi savoli: {last_user_msg}\n\nQo'shimcha ma'lumot: ",
+            "Description",
+            value=f"User question: {last_user_msg}\n\nAdditional details: ",
             height=120,
             key="ticket_body",
         )
-        if st.button("GitHub Issue yaratish", type="primary", key="create_ticket"):
-            with st.spinner("Ticket yaratilmoqda..."):
+        if st.button("Create GitHub Issue", type="primary", key="create_ticket"):
+            with st.spinner("Creating ticket..."):
                 try:
                     url = create_github_issue(title, body)
                     log("TICKET", f"GitHub issue created: {url}")
-                    st.success(f"Ticket yaratildi: [Issue ko'rish]({url})")
+                    st.success(f"Ticket created: [View Issue]({url})")
                     st.session_state.show_ticket_form = False
                 except Exception as e:
-                    st.error(f"Xato: {e}")
+                    st.error(f"Error: {e}")
 
 
 def is_support_request(text: str) -> bool:
@@ -144,7 +144,7 @@ def main() -> None:
         user_input = st.session_state.pending_query
         st.session_state.pending_query = None
     else:
-        user_input = st.chat_input("Savolingizni yozing...")
+        user_input = st.chat_input("Ask a question about your data...")
 
     if user_input:
         log("USER", user_input)
@@ -156,7 +156,7 @@ def main() -> None:
             st.session_state.show_ticket_form = True
 
         with st.chat_message("assistant"):
-            with st.spinner("Tahlil qilinmoqda..."):
+            with st.spinner("Analyzing..."):
                 response = run_agent(list(st.session_state.messages))
             st.markdown(response)
 
@@ -169,7 +169,7 @@ def main() -> None:
     render_ticket_form()
 
     if not st.session_state.show_ticket_form:
-        if st.button("🎫 Support Ticket ochish", key="open_ticket_btn"):
+        if st.button("🎫 Open Support Ticket", key="open_ticket_btn"):
             st.session_state.show_ticket_form = True
             st.rerun()
 

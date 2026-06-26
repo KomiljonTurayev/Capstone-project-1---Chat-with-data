@@ -22,11 +22,12 @@ RULES:
 3. Only write SELECT queries.
 4. Return results in a clear, concise format. Use markdown tables when listing multiple rows.
 5. If you cannot answer a question after 2 attempts, suggest opening a support ticket.
-6. When the user mentions "support", "yordam", "muammo", or "ticket", call create_github_issue.
+6. When the user asks for support or mentions a problem you cannot solve, call create_github_issue.
 7. Keep answers data-focused and concise.
+8. Always respond in English.
 """
 
-SUPPORT_TRIGGERS = {"support", "yordam", "muammo", "ticket", "help", "human"}
+SUPPORT_TRIGGERS = {"support", "ticket", "help", "human", "agent", "contact"}
 
 
 def log(tag: str, message: str) -> None:
