@@ -1,5 +1,5 @@
 .env
-data/ecommerce.db
+# data/ecommerce.db  # committed to repo for HF Spaces compatibility
 __pycache__/
 *.pyc
 .pytest_cache/

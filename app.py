@@ -116,14 +116,17 @@ def render_ticket_form() -> None:
             key="ticket_body",
         )
         if st.button("Create GitHub Issue", type="primary", key="create_ticket"):
-            with st.spinner("Creating ticket..."):
-                try:
-                    url = create_github_issue(title, body)
-                    log("TICKET", f"GitHub issue created: {url}")
-                    st.success(f"Ticket created: [View Issue]({url})")
-                    st.session_state.show_ticket_form = False
-                except Exception as e:
-                    st.error(f"Error: {e}")
+            if not os.environ.get("GITHUB_TOKEN") or not os.environ.get("GITHUB_REPO"):
+                st.error("GITHUB_TOKEN and GITHUB_REPO must be set in your .env file or HF Spaces secrets.")
+            else:
+                with st.spinner("Creating ticket..."):
+                    try:
+                        url = create_github_issue(title, body)
+                        log("TICKET", f"GitHub issue created: {url}")
+                        st.success(f"Ticket created: [View Issue]({url})")
+                        st.session_state.show_ticket_form = False
+                    except Exception as e:
+                        st.error(f"Error: {e}")
 
 
 def is_support_request(text: str) -> bool:

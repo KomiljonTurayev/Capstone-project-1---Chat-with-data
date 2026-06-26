@@ -8,7 +8,8 @@ from tools import TOOL_DEFINITIONS, dispatch_tool
 
 load_dotenv()
 
-client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""))
+_api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+client = anthropic.Anthropic(api_key=_api_key) if _api_key else None
 
 MODEL = "claude-sonnet-4-6"
 MAX_TOKENS = 4096
@@ -36,6 +37,9 @@ def log(tag: str, message: str) -> None:
 
 
 def run_agent(messages: list) -> str:
+    if not client:
+        return "ANTHROPIC_API_KEY is not set. Please configure it in your .env file or HF Spaces secrets."
+
     failed_attempts = 0
 
     while True:
