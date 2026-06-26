@@ -11,6 +11,8 @@ pinned: false
 
 # 🛒 Data Insights App — Chat with your E-commerce Data
 
+**🚀 Live demo:** [https://huggingface.co/spaces/IKomil/capstone-data-insights](https://huggingface.co/spaces/IKomil/capstone-data-insights)
+
 A Streamlit chatbot powered by Claude that lets you query an e-commerce SQLite database using plain language. No SQL knowledge required.
 
 ## Features
