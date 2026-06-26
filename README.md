@@ -89,36 +89,30 @@ Expected: 27 tests pass.
 
 ### Step 1: App opens with dashboard
 
-The sidebar shows live dataset statistics and a bar chart of revenue by product category.
+The sidebar shows live dataset statistics, a bar chart of revenue by product category, and sample query buttons.
 
-![Sidebar stats](docs/screenshots/sidebar.png)
+![Dashboard](docs/screenshots/01_dashboard.png)
 
 ### Step 2: Ask a question using sample queries or free text
 
-Click any sample query button or type your own question.
+Click any sample query button or type your own question. The agent calls `get_schema()` then `query_database()` and returns formatted results with key insights.
 
-![Sample query](docs/screenshots/chat_query.png)
-
-### Step 3: Agent analyzes and responds
-
-Claude calls `get_schema()` first, then `query_database()` with a safe SQL query, and returns formatted results.
-
-![Agent response](docs/screenshots/agent_response.png)
+![Agent response](docs/screenshots/02_agent_response.png)
 
 Console output:
 ```
-[2024-11-15 10:23:01] [USER    ]  Top 5 mahsulotni sotuvlar bo'yicha ko'rsat
-[2024-11-15 10:23:01] [TOOL    ]  get_schema()
-[2024-11-15 10:23:02] [TOOL    ]  query_database(SELECT p.name, SUM(oi.quantity) ...
-[2024-11-15 10:23:02] [DB      ]  5 rows returned
-[2024-11-15 10:23:03] [AGENT   ]  Response sent to UI
+[2026-06-26 10:23:01] [USER    ]  Who are the top 5 most active customers?
+[2026-06-26 10:23:01] [TOOL    ]  get_schema()
+[2026-06-26 10:23:02] [TOOL    ]  query_database(SELECT c.id, c.name, c.city ...
+[2026-06-26 10:23:02] [DB      ]  5 rows returned
+[2026-06-26 10:23:03] [AGENT   ]  Response sent to UI
 ```
 
-### Step 4: Open a support ticket
+### Step 3: Open a support ticket
 
-Click "Support Ticket ochish" or ask for help — a GitHub Issue is created automatically.
+Click "Open Support Ticket" button — a form appears pre-filled with context. Click "Create GitHub Issue" to escalate to a human.
 
-![Support ticket](docs/screenshots/support_ticket.png)
+![Support ticket](docs/screenshots/03_support_ticket.png)
 
 ## Architecture
 
