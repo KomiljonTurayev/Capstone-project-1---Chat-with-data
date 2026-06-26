@@ -91,13 +91,13 @@ Expected: 27 tests pass.
 
 The sidebar shows live dataset statistics, a bar chart of revenue by product category, and sample query buttons.
 
-![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](https://raw.githubusercontent.com/KomiljonTurayev/Capstone-project-1---Chat-with-data/master/docs/screenshots/dashboard.png)
 
 ### Step 2: Ask a question using sample queries or free text
 
 Click any sample query button or type your own question. The agent calls `get_schema()` then `query_database()` and returns formatted results with key insights.
 
-![Agent response](docs/screenshots/agent_response.png)
+![Agent response](https://raw.githubusercontent.com/KomiljonTurayev/Capstone-project-1---Chat-with-data/master/docs/screenshots/agent_response.png)
 
 Console output:
 ```
@@ -112,7 +112,7 @@ Console output:
 
 Click "Open Support Ticket" button — a form appears pre-filled with context. Click "Create GitHub Issue" to escalate to a human.
 
-![Support ticket](docs/screenshots/support_ticket.png)
+![Support ticket](https://raw.githubusercontent.com/KomiljonTurayev/Capstone-project-1---Chat-with-data/master/docs/screenshots/support_ticket.png)
 
 ## Architecture
 
